@@ -69,22 +69,22 @@ This diagram illustrates the data flow and interaction between the system's comp
 ```mermaid
 graph TD
     %% -- Components --
-    A[Frontend<br/>(HTML/JS, MediaRecorder)]
+    A[Frontend (HTML/JS, MediaRecorder)]
     
     subgraph Python Backend (Flask)
         direction LR
-        B1(ASR<br/>(Trained CNN))
-        B2(NLP<br/>(Fine-tuned DistilBERT))
+        B1(ASR (CNN))
+        B2(NLP (DistilBERT))
         B1 --- B2
     end
     
-    C[LLM<br/>(Gemini API)]
+    C[LLM (Gemini API)]
 
     %% -- Main Data Flow --
-    A -- Audio Input<br/>(1 sec, Base64) --> B1;
+    A -- Audio Input (1 sec, Base64) --> B1;
     B1 -- Transcription --> B2;
     B2 -- Classified Intent --> C;
-    C -- Tutor Response<br/>(Text) --> A;
+    C -- Tutor Response (Text) --> A;
 
     %% -- Styling for Clarity --
     style A fill:#BBDEFB,stroke:#1E88E5,stroke-width:2px;
