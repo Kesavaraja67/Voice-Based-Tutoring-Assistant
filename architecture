@@ -1,0 +1,26 @@
+// System Architecture
+digraph {
+	graph [nodesep=0.8 rankdir=LR ranksep=1.2 splines=spline]
+	node [fillcolor="#E8F0FE" fontname=Helvetica shape=box style=filled]
+	edge [fontname=Helvetica fontsize=10]
+	frontend [label="Frontend
+(HTML/JS, MediaRecorder)" shape=box tooltip="User interface for microphone input"]
+	backend_cluster [label="Flask Backend
+(/transcribe, /classify_intent)" fillcolor="#D6E4FF" shape=box style=filled tooltip="Python Flask server handling business logic"]
+	asr_cnn [label="ASR (CNN)" fillcolor="#BBDEFB" fontsize=11 group=backend_group shape=box style="rounded,filled" tooltip="Convolutional Neural Network for Speech Recognition"]
+	nlp_distilbert [label="NLP (DistilBERT)" fillcolor="#BBDEFB" fontsize=11 group=backend_group shape=box style="rounded,filled" tooltip="DistilBERT for Natural Language Processing (intent classification)"]
+	llm_gemini [label="LLM
+(Gemini API)" height=1.5 image="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Google_Gemini_logo.svg/120px-Google_Gemini_logo.svg.png" imagescale=true labelloc=b shape=box tooltip="Large Language Model for adaptive tutor responses" width=1.5]
+	subgraph cluster_backend {
+		color="#A7C7E7" fontsize=12 label="Flask Backend Logic" style=filled
+		backend_start [label="" style=invis]
+		backend_end [label="" style=invis]
+		backend_start -> asr_cnn [style=invis]
+		asr_cnn -> nlp_distilbert [label=Transcription color="#4CAF50" dir=forward minlen=2]
+		nlp_distilbert -> backend_end [style=invis]
+	}
+	frontend -> backend_cluster [label="Audio Input" color="#1A237E" dir=forward minlen=2]
+	nlp_distilbert -> llm_gemini [label="Intent (Text)" color="#FF9800" dir=forward minlen=2]
+	llm_gemini -> backend_cluster [label="Tutor Response (Text/Audio)" color="#039BE5" dir=back minlen=2]
+	backend_cluster -> frontend [label="Tutor Response (Text/Audio)" color="#039BE5" dir=back minlen=2]
+}
