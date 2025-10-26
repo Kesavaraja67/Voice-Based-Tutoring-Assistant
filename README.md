@@ -66,7 +66,6 @@ The system is engineered as a three-tier architecture to ensure resilience, scal
 
 This diagram illustrates the data flow and interaction between the system's components:
 
-```mermaid
 graph TD
     %% -- Components --
     A[Frontend (HTML/JS, MediaRecorder)]
@@ -75,25 +74,27 @@ graph TD
         direction LR
         B1(ASR (CNN))
         B2(NLP (DistilBERT))
-        B1 --- B2
+        B1 --> B2
     end
     
     C[LLM (Gemini API)]
 
     %% -- Main Data Flow --
-    A -- Audio Input (1 sec, Base64) --> B1;
-    B1 -- Transcription --> B2;
-    B2 -- Classified Intent --> C;
-    C -- Tutor Response (Text) --> A;
+    A -- "Audio Input (1 sec, Base64)" --> B1;
+    B1 -- "Transcription" --> B2;
+    B2 -- "Classified Intent" --> C;
+    C -- "Tutor Response (Text)" --> A;
 
     %% -- Styling for Clarity --
-    style A fill:#BBDEFB,stroke:#1E88E5,stroke-width:2px;
-    style B1 fill:#A5D6A7,stroke:#388E3C,stroke-width:2px;
-    style B2 fill:#FFCC80,stroke:#FF9800,stroke-width:2px;
-    style C fill:#9575CD,stroke:#673AB7,stroke-width:2px;
+    %% Standardizing on hex codes and slightly more modern fill/stroke
+    style A fill:#D6EAF8,stroke:#2E86C1,stroke-width:2px; %% Lighter Blue
+    style B1 fill:#D5F5E3,stroke:#27AE60,stroke-width:2px; %% Lighter Green
+    style B2 fill:#FCF3CF,stroke:#F39C12,stroke-width:2px; %% Lighter Orange/Yellow
+    style C fill:#E8DAEF,stroke:#8E44AD,stroke-width:2px; %% Lighter Purple
     
-    linkStyle 0 stroke-width:2px,fill:none,stroke:darkblue;
-    linkStyle 1 stroke-width:2px,fill:none,stroke:green;
-    linkStyle 2 stroke-width:2px,fill:none,stroke:orange;
-    linkStyle 3 stroke-width:2px,fill:none,stroke:purple;
-```
+    %% Using a single linkStyle command for consistency and separating the stroke-width
+    linkStyle default stroke-width:2px;
+    linkStyle 0 stroke:darkblue;
+    linkStyle 1 stroke:green;
+    linkStyle 2 stroke:orange;
+    linkStyle 3 stroke:purple;
